@@ -1,4 +1,4 @@
-# GodotTilemapBaker
+# Godot Tilemap Collision Baker
 
 ![showcase](./showcase.gif)
 
