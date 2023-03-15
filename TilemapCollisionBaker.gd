@@ -34,7 +34,7 @@ func run_code(_fake_bool = null):
 	if delete_children_on_run:
 		delete_children()
 	
-	var tile_size = tile_map.get_quadrant_size()
+	var tile_size = tile_map.tile_set.tile_size
 	var tilemap_locations = tile_map.get_used_cells(target_tiles_layer)
 	
 	if tilemap_locations.size() == 0:
@@ -57,9 +57,9 @@ func run_code(_fake_bool = null):
 		
 		if temp_loc == null:
 			# Add the last collider and break out of loop
-			var newXPos = (xMarginStart + abs(last_loc.x - xMarginStart) / 2.0 + 0.5) * tile_size
+			var newXPos = (xMarginStart + abs(last_loc.x - xMarginStart) / 2.0 + 0.5) * tile_size.x
 			@warning_ignore("integer_division")
-			var newYPos = last_loc.y * tile_size - (-tile_size / 2)
+			var newYPos = last_loc.y * tile_size.y - (-tile_size.y / 2)
 			first_colliders_arr.append(createCollisionShape(Vector2i(newXPos, newYPos), size, tile_size))
 			print("Finished calculating first pass!")
 			break
@@ -72,9 +72,9 @@ func run_code(_fake_bool = null):
 		if last_loc.y == temp_loc.y and abs(last_loc.x - temp_loc.x) == 1:
 			size += Vector2i(1,0)
 		else:
-			var newXPos = (xMarginStart + abs(last_loc.x - xMarginStart) / 2.0 + 0.5) * tile_size
+			var newXPos = (xMarginStart + abs(last_loc.x - xMarginStart) / 2.0 + 0.5) * tile_size.x
 			@warning_ignore("integer_division")
-			var newYPos = last_loc.y * tile_size - (-tile_size / 2)
+			var newYPos = last_loc.y * tile_size.y - (-tile_size.y / 2)
 			first_colliders_arr.append(createCollisionShape(Vector2i(newXPos, newYPos), size, tile_size))
 			size = Vector2i(1, 1)
 			xMarginStart = temp_loc.x
@@ -99,8 +99,8 @@ func run_code(_fake_bool = null):
 		
 		if temp_collider == null:
 			# Add final merged collider and break
-			last_collider.shape.size.y = tile_size * colliders_to_merge
-			last_collider.position.y -= (colliders_to_merge / 2.0 - 0.5) * tile_size
+			last_collider.shape.size.y = tile_size.y * colliders_to_merge
+			last_collider.position.y -= (colliders_to_merge / 2.0 - 0.5) * tile_size.y
 			second_colliders_arr.append(last_collider)
 			
 			print("Finished baking tilemap collisions!")
@@ -111,7 +111,7 @@ func run_code(_fake_bool = null):
 			last_collider = temp_collider
 			continue
 		
-		var tile_y_distance = abs(temp_collider.position.y - last_collider_pos.y) / tile_size
+		var tile_y_distance = abs(temp_collider.position.y - last_collider_pos.y) / tile_size.y
 		if last_collider_pos.x == temp_collider.position.x and tile_y_distance == 1:
 			#print("Adding 1 to the merge")
 			colliders_to_merge += 1
@@ -119,8 +119,8 @@ func run_code(_fake_bool = null):
 		else:
 			#print("Merging %s colliders" % colliders_to_merge)
 			last_collider_pos = temp_collider.position
-			last_collider.shape.size.y = tile_size * colliders_to_merge
-			last_collider.position.y -= (colliders_to_merge / 2.0 - 0.5) * tile_size
+			last_collider.shape.size.y = tile_size.y * colliders_to_merge
+			last_collider.position.y -= (colliders_to_merge / 2.0 - 0.5) * tile_size.y
 			second_colliders_arr.append(last_collider)
 			
 			colliders_to_merge = 1
