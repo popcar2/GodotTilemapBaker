@@ -12,3 +12,5 @@ Simply attach the `TilemapCollisionBaker` script to an empty StaticBody2D, then 
 You can also select a specific tile layer to bake collisions for, which can be useful if you have slopes or water on separate layers for example.
 
 Don't forget to remove your collisions from the tileset (if you ever had any) when using this tool.
+
+Loved the project? [Consider buying me a cup of Ko-Fi!](https://ko-fi.com/popcar2)
