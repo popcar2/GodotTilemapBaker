@@ -112,7 +112,7 @@ func run_code(_fake_bool = null):
 			continue
 		
 		var tile_y_distance = abs(temp_collider.position.y - last_collider_pos.y) / tile_size.y
-		if last_collider_pos.x == temp_collider.position.x and tile_y_distance == 1:
+		if last_collider_pos.x == temp_collider.position.x and tile_y_distance == 1 and temp_collider.shape.size.x == last_collider.shape.size.x:
 			#print("Adding 1 to the merge")
 			colliders_to_merge += 1
 			last_collider_pos = temp_collider.position
