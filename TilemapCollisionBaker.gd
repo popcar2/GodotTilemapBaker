@@ -28,7 +28,7 @@ extends StaticBody2D
 func run_code(_fake_bool = null):
 	var tile_map: TileMapLayer = get_node(tilemap_nodepath)
 	if tile_map == null:
-		print("Hey, you forgot to set your Tilemap Nodepath.")
+		print("Hey, you forgot to set your Tilemap Layer Nodepath.")
 		return
 	
 	if delete_children_on_run:
@@ -38,7 +38,7 @@ func run_code(_fake_bool = null):
 	var tilemap_locations = tile_map.get_used_cells()
 	
 	if tilemap_locations.size() == 0:
-		print("Hey, this tilemap is empty (did you choose the correct layer?)")
+		print("Hey, this tilemap layer is empty!")
 		return
 	
 	# I use .pop_back() to go through the array, so I sort them from bottom right to top left.
