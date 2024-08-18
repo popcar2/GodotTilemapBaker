@@ -11,12 +11,8 @@ extends StaticBody2D
 ## For further optimizations, it combines different rows of CollisionShapes if 
 ##    they are the same size.
 
-## Your TileMap Node
-@export var tilemap_nodepath: NodePath
-
-## The tilemap layer to bake collisions on.
-## You can bake for multiple layers by disabling delete_children_on_run and running multiple times.
-@export var target_tiles_layer: int = 0
+## Your TileMapLayer Nodes
+@export var tilemaplayers_nodepaths: Array[NodePath]
 
 ## Whether or not you want the children of this node to be deleted on run or not.
 ## Be careful with this!
@@ -26,14 +22,22 @@ extends StaticBody2D
 @export var run_script: bool = false : set = run_code
 
 func run_code(_fake_bool = null):
-	var tile_map: TileMapLayer = get_node(tilemap_nodepath)
-	if tile_map == null:
-		print("Hey, you forgot to set your Tilemap Layer Nodepath.")
-		return
-	
 	if delete_children_on_run:
 		delete_children()
 	
+	if tilemaplayers_nodepaths.is_empty():
+		print("Hey, you forgot to add tilemaplayers to bake!")
+		return
+	
+	for tile_map_path: NodePath in tilemaplayers_nodepaths:
+		var tile_map: TileMapLayer = get_node(tile_map_path)
+		if tile_map == null:
+			print("Hey, there's a null TileMapLayer in your nodepaths!")
+			return
+		
+		bake_tilemaplayer(tile_map)
+	
+func bake_tilemaplayer(tile_map: TileMapLayer):
 	var tile_size = tile_map.tile_set.tile_size
 	var tilemap_locations = tile_map.get_used_cells()
 	
@@ -131,9 +135,10 @@ func run_code(_fake_bool = null):
 	for collider in second_colliders_arr:
 		add_child(collider, true)
 		collider.owner = get_tree().edited_scene_root
+		
+		## Sets the collider to position itself on top of the layer (if the tilemaplayer has been moved)
+		collider.position += tile_map.position
 	
-	## Move this node's position to cover the tilemap
-	position = tile_map.position
 
 func createCollisionShape(pos, size, tile_size) -> CollisionShape2D:
 	var collisionShape = CollisionShape2D.new()
