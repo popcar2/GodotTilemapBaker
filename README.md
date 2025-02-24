@@ -14,3 +14,7 @@ You can also select a specific tile layer to bake collisions for, which can be u
 Don't forget to remove your collisions from the tileset (if you ever had any) when using this tool.
 
 Loved the project? [Consider buying me a cup of Ko-Fi!](https://ko-fi.com/popcar2)
+
+## ⚠️ Notice ⚠️
+
+Godot developers finally submitted [a pull request to chunk tilemap physics](https://github.com/godotengine/godot/pull/102662), which works way better than this hacky workaround. Give it a thumbs up and test it so it can hopefully get merged quicker. Once it gets merged (likely for version 4.5), this repo is getting archived :)
